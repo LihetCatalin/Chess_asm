@@ -1,0 +1,48 @@
+.386
+.model flat, stdcall
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;includem biblioteci, si declaram ce functii vrem sa importam
+includelib msvcrt.lib
+extern exit: proc
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;declaram simbolul start ca public - de acolo incepe executia
+public start
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;sectiunile programului, date, respectiv cod
+.data
+;aici declaram date
+ANGAJAT struct
+nume DB 20 dup(0)
+salariu DW 0
+ANGAJAT ends
+
+nrAngajati DW 4
+angajati ANGAJAT {"georgescu", 100}, {"pop", 100},
+                 {"popescu", 300}, {"ionescu", 450}
+
+.code
+start:
+	;aici se scrie codul
+	mov eax, 0
+	mov esi, 0
+	;incepem sa adunam salariile
+	;cresc valoarea lui esi cu 22 pentru a ajunge la urmatorul salariu
+	;22= 20 bytes(numele) + 2 bytes(salariul)
+	
+	add ax, angajati[esi].salariu
+	add esi, 22
+	
+	add ax, angajati[esi].salariu
+	add esi, 22
+	
+	add ax, angajati[esi].salariu
+	add esi, 22
+	
+	add ax, angajati[esi].salariu
+	;terminarea programului
+	push 0
+	call exit
+end start
